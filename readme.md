@@ -28,7 +28,7 @@ Deskripsi singkat tentang project Anda. Jelaskan fungsi atau tujuan dari project
 
 Pastikan Anda memiliki versi perangkat lunak berikut yang terinstall:
 
-- **PHP** >= 8.1
+- **PHP** >= 8.2 || 8.4
 - **Composer** >= 2.x
 - **Node.js** >= 18.x
 - **npm** atau **Yarn**
@@ -43,8 +43,8 @@ Ikuti langkah-langkah berikut untuk mengatur dan menjalankan project ini secara 
 Clone repository dari GitHub ke komputer Anda:
 
 ```bash
-git clone https://github.com/username/nama-repository.git
-cd nama-repository
+git clone https://github.com/abdulmajid34/kas-app-v2
+cd kas-app-v2
 ```
 
 ### 2. Install Dependecies
@@ -106,7 +106,7 @@ Aplikasi akan berjalan di `http://localhost:8000`.
 ## Contributor
 
 - Abdul Majid - abdulmajid34 | abdulmajid08180881@gmail.com
-- Steven Ekaputra
+- 
 
 ## Lisensi
 
