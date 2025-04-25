@@ -38,35 +38,49 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->na
 
 // Route admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user', [UserController::class, 'index'])->name('admin.user');
+
+    Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa');
+    Route::get('/todos', [TodosController::class, 'index'])->name('admin.todos');
 });
 
 // Route ketua kelas
 Route::middleware(['auth', 'role:ketua_kelas'])->prefix('ketua_kelas')->group(function () {
-    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+    Route::get('/kelas', [KelasController::class, 'index'])->name('ketua_kelas.kelas');
+    Route::get('/user', [UserController::class, 'index'])->name('ketua_kelas.user');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('ketua_kelas.siswa');
+    Route::get('/todos', [TodosController::class, 'index'])->name('ketua_kelas.todos');
 });
 
 // Route Bendahara
 Route::middleware(['auth', 'role:bendahara'])->prefix('bendahara')->group(function () {
-    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('bendahara.siswa');
+    Route::get('/kelas', [KelasController::class, 'index'])->name('bendahara.kelas');
+    Route::get('/todos', [TodosController::class, 'index'])->name('bendahara.todos');
 });
 
 // Route ketua kelas
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->group(function () {
-    Route::get('/todos', [TodosController::class, 'index'])->name('todos.index');
+    Route::get('/todos', [TodosController::class, 'index'])->name('siswa.todos');
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.siswa');
+    Route::get('/kelas', [KelasController::class, 'index'])->name('siswa.kelas');
 });
 
-Route::get('/', fn () => redirect('/auth/login'));
-// Route::get('/', function () {
-//     if (Auth::check()) {
-//         return match (Auth::user()->role) {
-//             'admin' => redirect('/admin/user'),
-//             'ketua_kelas' => redirect('/ketua/dashboard'),
-//             'bendahara' => redirect('/bendahara/dashboard'),
-//             'siswa' => redirect('/siswa/dashboard'),
-//             default => abort(403),
-//         };
-//     }
 
-//     return redirect()->route('login');
-// });
+// Redirect root
+Route::get('/', function () {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    $role = auth()->user()->role;
+
+    return match ($role) {
+        'admin' => redirect()->route('admin.user'),
+        'ketua_kelas' => redirect()->route('ketua_kelas.kelas'),
+        'bendahara' => redirect()->route('bendahara.siswa'),
+        'siswa' => redirect()->route('siswa.todos'),
+        default => abort(403)
+    };
+});

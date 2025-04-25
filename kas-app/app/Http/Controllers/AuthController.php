@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -19,17 +21,30 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        $user = User::where('username', $request->username)->first();
 
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
             return match (Auth::user()->role) {
-                'admin' => redirect()->intended('/admin/user'),
-                'ketua_kelas' => redirect()->intended('/ketua_kelas/kelas'),
-                'bendahara' => redirect()->intended('/bendahara/siswa'),
-                'siswa' => redirect()->intended('/siswa/todos'),
-                default => redirect('/'),
-            };
+                        'admin' => redirect()->intended('/admin/user'),
+                        'ketua_kelas' => redirect()->intended('/ketua_kelas/kelas'),
+                        'bendahara' => redirect()->intended('/bendahara/siswa'),
+                        'siswa' => redirect()->intended('/siswa/todos'),
+                        default => redirect('/'),
+                    };
         }
+
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate();
+
+        //     return match (Auth::user()->role) {
+        //         'admin' => redirect()->intended('/admin/user'),
+        //         'ketua_kelas' => redirect()->intended('/ketua_kelas/kelas'),
+        //         'bendahara' => redirect()->intended('/bendahara/siswa'),
+        //         'siswa' => redirect()->intended('/siswa/todos'),
+        //         default => redirect('/'),
+        //     };
+        // }
 
         return back()->withErrors(['login' => 'Username atau password salah!']);
     }
@@ -37,8 +52,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 }
