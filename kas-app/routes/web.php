@@ -38,6 +38,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->na
 
 // Route admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+// Route Users
     Route::get('/user', [UserController::class, 'index'])->name('admin.user');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas');

@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = Auth::user(); // Mengambil pengguna yang sedang login
+        $users = DB::table('users')->get(); // Mengambil pengguna yang sedang login
         return view('users.index', compact('users')); // Mengirim data pengguna ke view
     }
 
