@@ -38,11 +38,16 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->na
 
 // Route admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-// Route Users
+    // Route CRUD Users
     Route::get('/user', [UserController::class, 'index'])->name('admin.user');
 
+    // ROUTE CRUD KELAS
     Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas');
+
+    // ROUTE CRUD SISWA
     Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa');
+
+    // ROUTE CRUD TODOS
     Route::get('/todos', [TodosController::class, 'index'])->name('admin.todos');
 });
 
@@ -67,7 +72,6 @@ Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.siswa');
     Route::get('/kelas', [KelasController::class, 'index'])->name('siswa.kelas');
 });
-
 
 // Redirect root
 Route::get('/', function () {
