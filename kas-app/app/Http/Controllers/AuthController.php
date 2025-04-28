@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Siswa;
 
 class AuthController extends Controller
 {
@@ -25,13 +26,21 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return match (Auth::user()->role) {
-                        'admin' => redirect()->intended('/admin/user'),
-                        'ketua_kelas' => redirect()->intended('/ketua_kelas/kelas'),
-                        'bendahara' => redirect()->intended('/bendahara/siswa'),
-                        'siswa' => redirect()->intended('/siswa/todos'),
-                        default => redirect('/'),
-                    };
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/user');
+            } elseif (Auth::user()->role === 'ketua_kelas') {
+                return redirect()->intended('/ketua_kelas/kelas');
+            } elseif (Auth::user()->role === 'bendahara') {
+                return redirect()->intended('/bendahara/siswa');
+            } elseif (Auth::user()->role === 'siswa') {
+                $dataSiswa = Siswa::where('user_id', $user->id)->first();
+                if($dataSiswa) {
+                    return redirect()->intended('/siswa/todos');
+                }
+                return redirect()->intended('/siswa/profile/create');
+            } else {
+                return redirect('/');
+            }
         }
 
         // if (Auth::attempt($credentials)) {
