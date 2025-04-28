@@ -7,7 +7,7 @@
                     alt="logo" />
             </a>
             <h4>KAS app</h4>
-            <span class="badge bg-light-primary rounded-pill ms-2 theme-version"> v1</span>
+            <span class="badge bg-light-primary rounded-pill ms-2 theme-version"> v2</span>
         </div>
         <div class="navbar-content">
             <div class="card pc-user-card">
@@ -77,7 +77,7 @@
                 } elseif($isRole === 'siswa') {
                     $todosRoute = route('siswa.todos');
                 }
-                
+
 
             @endphp
 
@@ -92,7 +92,7 @@
                                     <use xlink:href="#custom-user"></use>
                                 </svg></span><span class="pc-mtext">Users</span></a>
                     </li>
-                @endif 
+                @endif
 
                 <!-- PAGE KELAS -->
                 <li class="pc-item">

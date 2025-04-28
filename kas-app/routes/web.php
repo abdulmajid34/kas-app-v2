@@ -69,17 +69,23 @@ Route::middleware(['auth', 'role:bendahara'])->prefix('bendahara')->group(functi
 // Route ketua kelas
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->group(function () {
     Route::get('/todos', [TodosController::class, 'index'])->name('siswa.todos');
+
+    // Route CRUD SISWA
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.siswa');
+    Route::get('/profile', [SiswaController::class, 'showProfile'])->name('siswa.profile');
+    Route::get('/profile/create', [SiswaController::class, 'createProfile'])->name('siswa.profile.create');
+    Route::post('/profile/store', [SiswaController::class, 'storeProfile'])->name('siswa.profile.store');
+
     Route::get('/kelas', [KelasController::class, 'index'])->name('siswa.kelas');
 });
 
 // Redirect root
 Route::get('/', function () {
-    if (!auth()->check()) {
+    if (!\Illuminate\Support\Facades\Auth::check()) {
         return redirect()->route('login');
     }
 
-    $role = auth()->user()->role;
+    $role = \Illuminate\Support\Facades\Auth::user()->role;
 
     return match ($role) {
         'admin' => redirect()->route('admin.user'),
