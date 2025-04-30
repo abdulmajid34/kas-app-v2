@@ -19,7 +19,7 @@
                     <h5>Personal Form</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('siswa.profile.store') }}" method="post">
+                    <form action="{{ route('profile.store') }}" method="post">
                         @csrf
                         <div class="row g-4">
                             <div class="col-md-4">

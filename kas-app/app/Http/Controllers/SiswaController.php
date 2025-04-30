@@ -10,7 +10,9 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        return view('siswa.index');
+        $query = Siswa::query();
+        $list_siswa = $query->with(['user', 'kelas'])->get();
+        return view('siswa.index', compact('list_siswa'));
     }
     public function showProfile()
     {

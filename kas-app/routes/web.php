@@ -55,7 +55,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 Route::middleware(['auth', 'role:ketua_kelas'])->prefix('ketua_kelas')->group(function () {
     Route::get('/kelas', [KelasController::class, 'index'])->name('ketua_kelas.kelas');
     Route::get('/user', [UserController::class, 'index'])->name('ketua_kelas.user');
+
     Route::get('/siswa', [SiswaController::class, 'index'])->name('ketua_kelas.siswa');
+    Route::get('/profile', [SiswaController::class, 'showProfile'])->name('profile');
+    Route::get('/profile/create', [SiswaController::class, 'createProfile'])->name('ketua_kelas.profile.create');
+    Route::post('/profile/store', [SiswaController::class, 'storeProfile'])->name('profile.store');
+
     Route::get('/todos', [TodosController::class, 'index'])->name('ketua_kelas.todos');
 });
 
@@ -66,15 +71,15 @@ Route::middleware(['auth', 'role:bendahara'])->prefix('bendahara')->group(functi
     Route::get('/todos', [TodosController::class, 'index'])->name('bendahara.todos');
 });
 
-// Route ketua kelas
+// Route SISWA
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->group(function () {
     Route::get('/todos', [TodosController::class, 'index'])->name('siswa.todos');
 
     // Route CRUD SISWA
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.siswa');
-    Route::get('/profile', [SiswaController::class, 'showProfile'])->name('siswa.profile');
-    Route::get('/profile/create', [SiswaController::class, 'createProfile'])->name('siswa.profile.create');
-    Route::post('/profile/store', [SiswaController::class, 'storeProfile'])->name('siswa.profile.store');
+    Route::get('/profile', [SiswaController::class, 'showProfile'])->name('profile');
+    Route::get('/profile/create', [SiswaController::class, 'createProfile'])->name('.siswa.profile.create');
+    Route::post('/profile/store', [SiswaController::class, 'storeProfile'])->name('profile.store');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('siswa.kelas');
 });
