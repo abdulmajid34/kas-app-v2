@@ -16,8 +16,11 @@ class SiswaController extends Controller
     }
     public function showProfile()
     {
-        $data_siswa = Siswa::where('user_id', Auth::id())->first();
-        return view('siswa.profile', compact('data_siswa'));
+        $data_siswa = Siswa::with(['user', 'kelas'])
+        ->where('user_id', Auth::id())
+        ->first(); // pakai first() agar dapat 1 object
+
+    return view('siswa.profile', compact('data_siswa'));
     }
     public function createProfile()
     {
