@@ -29,7 +29,11 @@ class AuthController extends Controller
             if (Auth::user()->role === 'admin') {
                 return redirect()->intended('/admin/user');
             } elseif (Auth::user()->role === 'ketua_kelas') {
-                return redirect()->intended('/ketua_kelas/kelas');
+                $dataSiswa = Siswa::where('user_id', $user->id)->first();
+                if($dataSiswa) {
+                    return redirect()->intended('/ketua_kelas/kelas');
+                }
+                return redirect()->intended('/profile/create');
             } elseif (Auth::user()->role === 'bendahara') {
                 return redirect()->intended('/bendahara/siswa');
             } elseif (Auth::user()->role === 'siswa') {
@@ -37,7 +41,7 @@ class AuthController extends Controller
                 if($dataSiswa) {
                     return redirect()->intended('/siswa/todos');
                 }
-                return redirect()->intended('/siswa/profile/create');
+                return redirect()->intended('/profile/create');
             } else {
                 return redirect('/');
             }

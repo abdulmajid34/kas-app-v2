@@ -65,7 +65,7 @@
                                         $siswaExists = \App\Models\Siswa::where('user_id', Auth::user()->id)->exists();
                                     }
                                 @endphp
-                                <a href="{{ route('siswa.profile') }}"
+                                <a href="{{ route('profile') }}"
                                     class="dropdown-item {{ Auth::user()->role == 'siswa' && !$siswaExists ? 'disabled' : '' }}"
                                     @if (Auth::user()->role == 'siswa' && !$siswaExists) onclick="return false;" style="opacity: 0.6; cursor: not-allowed;" @endif><span>
                                         <i class="ti ti-user"></i>
